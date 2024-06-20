@@ -11,23 +11,23 @@ import { AppComponent } from './app.component';
   import { DatabaseCommunicatorComponent } from './database-communicator/database-communicator.component';
   import { MainPageComponent } from './main-page/main-page.component';
 
-    import { MedicineComponent } from './main-page/medicine/medicine.component';
-      import { MedicineAddComponent } from './main-page/medicine/medicine-add/medicine-add.component';
-      import { MedicineUpdateComponent } from './main-page/medicine/medicine-update/medicine-update.component';
-      import { MedicineDeleteComponent } from './main-page/medicine/medicine-delete/medicine-delete.component';
+    import { MedicineComponent } from './main-page/modeB/controller/medicine/medicine.component';
+      import { MedicineAddComponent } from './main-page/modeB/controller/medicine/medicine-add/medicine-add.component';
+      import { MedicineUpdateComponent } from './main-page/modeB/controller/medicine/medicine-update/medicine-update.component';
+      import { MedicineDeleteComponent } from './main-page/modeB/controller/medicine/medicine-delete/medicine-delete.component';
 
-    import { ReminderBComponent } from './main-page/reminderB/reminderB.component';
-      import { ReminderBAddComponent } from './main-page/reminderB/reminderB-add/reminderB-add.component';
+    import { ReminderBComponent } from './main-page/modeB/controller/reminderB/reminderB.component';
+      import { ReminderBAddComponent } from './main-page/modeB/controller/reminderB/reminderB-add/reminderB-add.component';
 
-    import { ReminderAComponent } from './main-page/reminderA/reminderA.component';
-      import { ReminderAAddComponent } from './main-page/reminderA/reminderA-add/reminderA-add.component';
-      import { ReminderAUpdateComponent } from './main-page/reminderA/reminderA-update/reminderA-update.component';
-      import { ReminderADeleteComponent } from './main-page/reminderA/reminderA-delete/reminderA-del.component';
+    import { ReminderAComponent } from './main-page/modeA/controller/reminderA/reminderA.component';
+      import { ReminderAAddComponent } from './main-page/modeA/controller/reminderA/reminderA-add/reminderA-add.component';
+      import { ReminderAUpdateComponent } from './main-page/modeA/controller/reminderA/reminderA-update/reminderA-update.component';
+      import { ReminderADeleteComponent } from './main-page/modeA/controller/reminderA/reminderA-delete/reminderA-del.component';
 
   import { UsersComponent } from './main-page/users/users.component';
-  import { ReminderAStatsComponent } from './main-page/reminderAstats/reminderAstats.component';
+  import { ReminderAStatsComponent } from './main-page/modeA/controller/reminderAstats/reminderAstats.component';
   import { SetupComponent } from './main-page/setup/setup.component';
-  import { ReminderBStatsComponent } from './main-page/reminderBstats/reminderBstats.component';
+  import { ReminderBStatsComponent } from './main-page/modeB/controller/reminderBstats/reminderBstats.component';
 
 
   const appRoutes:Routes=[
@@ -103,7 +103,7 @@ import { AppComponent } from './app.component';
 
     ReminderBComponent,
     ReminderBAddComponent,
-
+    
     MedicineComponent,
     MedicineAddComponent,
     MedicineUpdateComponent,

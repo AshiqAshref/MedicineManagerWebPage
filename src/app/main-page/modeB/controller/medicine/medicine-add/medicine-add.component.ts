@@ -1,5 +1,5 @@
-import { medicine } from './../medicine';
-import { AppService } from '../../app.service';
+
+
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -7,6 +7,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { modeB } from 'src/environments/environments';
 import { Observable } from 'rxjs/internal/Observable';
 import { CustomValidators } from 'src/app/Validators/CustomValidators.validator';
+import { AppService } from 'src/app/main-page/app.service';
+import { medicine } from '../../../model/medicine';
 
 @Component({
   selector: 'app-add-med',
@@ -52,6 +54,7 @@ export class MedicineAddComponent {
     }
   }
 
+  
   refreshValues(subscribe:boolean = true): Observable<any>{
     this.boxNumbers=[];
 

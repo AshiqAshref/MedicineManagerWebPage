@@ -1,10 +1,11 @@
-import { reminderA } from './reminderA';
+
 import { Component,OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { modeA } from 'src/environments/environments';
 import { Observable } from 'rxjs/internal/Observable';
+import { reminderA } from '../../models/reminderA';
 
 @Component({
   selector: 'app-reminder-add',

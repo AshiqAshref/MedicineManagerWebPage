@@ -1,4 +1,4 @@
-import { AppService } from '../../app.service';
+
 import { state, style, trigger, transition, animate } from '@angular/animations';
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { modeB } from 'src/environments/environments';
 import { Observable } from 'rxjs';
+import { AppService } from 'src/app/main-page/app.service';
 
 @Component({
   selector: 'app-mode-b-add',
