@@ -182,10 +182,10 @@ export class ReminderBAddComponent{
   }
   
 
-  updateNewValues({medb_id,emitEvent}:{medb_id:number,emitEvent:boolean}){
+  updateNewValues({med_id,emitEvent}:{med_id:number,emitEvent:boolean}){
     this.refreshValues(true).subscribe((val)=>{
       this.afterGetRequest(val)
-      this.addReminderForm.get("boxSelectForm")?.setValue(medb_id,{emitEvent:emitEvent})
+      this.addReminderForm.get("boxSelectForm")?.setValue(med_id,{emitEvent:emitEvent})
     })
   }
 
