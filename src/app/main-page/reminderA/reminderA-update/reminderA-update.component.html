@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    Update<br>
+    <button type="button" class="btn btn-success" (click)="refreshValues()">Load</button>
+    
+    <form class="row align-items-center " #event = "ngForm" (ngSubmit)="updateReminder(event)">
+        <div class="col " id="boxNo">
+            <label for="BoxNumber" class="form-label">Choose a box</label>
+            <select #device (change)="updateOnChange(device.value)" name="BoxNumber" [(ngModel)]="currentBox" class="form-select" id="BoxNumber" required>
+              <option selected disabled value="0">Choose...</option>
+              <option  *ngFor="let numb of boxNumbers" [value]="numb">{{numb}}</option>
+            </select> 
+        </div>
+        <div class="w-100"> Set a Time</div>
+        <div class="row" id="timePicker">
+            <div class="col">
+                <label for="hour" class="form-label">Hour</label>
+                <select [disabled]= "hourMinStatus" name="hour"  [(ngModel)]="currentHour" class="form-select" id="hour" required>
+                    <option selected value="0">00</option>
+                    <option  *ngFor="let hr of hours" [value]='hr'>{{hr}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="min" class="form-label">Min</label>
+                <select [disabled]="hourMinStatus" name="min"  [(ngModel)] = "currentMin" class="form-select" id="min" required>
+                    <option selected value = "0">00</option>
+                    <option *ngFor="let min of mins" [value]='min' >{{min}}</option>
+                </select>
+            </div>
+        </div>
+
+          <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+          </div>
+    </form>
+
+   
+</div>

@@ -1,0 +1,31 @@
+#mainHeader{
+    position:relative;
+    overflow-y: auto;  
+}
+
+#userTable{
+    position: relative;
+    /* border: 1px solid black; */
+    bottom:0;
+    overflow-y: auto;
+    min-width: 500px;
+    margin: 20px;
+}
+#registerBox{
+    position:relative;
+    /* border: 1px solid black; */
+    min-width:500px ;
+    /* min-height: 800px; */
+    margin: 20px;
+
+    overflow-y: auto;
+    bottom:0;
+}
+.card{
+    padding:0;
+    border: 0;
+}
+#card_body{
+    /* border: 1px solid black; */
+    border-radius: 5px;
+}

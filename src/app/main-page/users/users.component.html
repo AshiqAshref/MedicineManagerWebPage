@@ -1,0 +1,72 @@
+<div class="row justify-content-evenly" id="mainHeader">
+    <div id="userTable" class="col-4 shadow rounded-3 ">
+        <button type="button" class="btn btn-success" (click)="refreshTable()">Refresh</button>
+        <div class="row">
+            <table class="table table-striped table-responsive-lg">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of result">
+                        <th scope="row">{{user.id}}</th>
+                        <td>{{user.fName}}</td>
+                        <td>{{user.lName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.pass}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <div id="registerBox" class="col-4 shadow rounded-3">
+
+        <div class="mask d-flex justify-content-center h-100">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="card" style="border-radius: 15px">
+                        <div class="card-body" id="card_body">
+                            <h2 class="text-uppercase text-center mb-5">Add an account</h2>
+
+                            <form #val = "ngForm" (ngSubmit)="addUser(val)">
+
+                                <div class="form-outline mb-4">
+                                    <input name="firstname" ngModel type="firstname" id="firstname" placeholder="First Name" class="form-control form-control-lg"/>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input name="lastname" ngModel type="lastname" id="lastname" placeholder="Last Name" class="form-control form-control-lg"/>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input name="email" ngModel type="email" id="floatingInput" placeholder="Email" class="form-control form-control-lg"/>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input name="password" ngModel type="password" id="floatingPassword" placeholder="Password" class="form-control form-control-lg"/>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit">
+                                        Register
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

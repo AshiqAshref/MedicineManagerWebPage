@@ -1,0 +1,19 @@
+<div class="container-fluid" id="MainHeader">
+    <div class="container-fluid" id="navBody">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+            <a [className]="addReminder" (click)="makeAddMain()" routerLink="add">Add Reminder</a>
+            </li>
+            <li class="nav-item">
+            <a [className]="updateReminder" (click)="makeUpdateMain()" onclick="return false"  routerLink="update">Update Reminder</a>
+            </li> 
+            <li class="nav-item">
+            <a [className]="delReminder" (click)="makeDelMain()" onclick="return false"  routerLink="delete">Remove a reminder</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<div class="container-fluid" id="bodyHeader">
+    <router-outlet ></router-outlet>
+</div>

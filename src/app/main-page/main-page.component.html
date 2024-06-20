@@ -1,0 +1,163 @@
+<div class="container" >
+    <div id="header"  class="row">
+        <div id="header_toggle"(click)="toggleSidebar()" class="col-1 header_comp">
+            <a onclick="return false" href='' false>
+            <div class="col">
+                <img id="header_toggle_icon" src="\assets\ToggleSidebar.png" alt="">
+            </div>
+        </a>
+        </div>
+        <div class="col header_comp">
+            <h1>Main-Server</h1>
+        </div>
+    </div>
+    <!-- MODE A NAV-BAR -->
+    <div  *ngIf="mode; else modeB" id="bodyContainer" class="row ">
+            <div id="bodyContainer_sideBar"class="col BC_Classes"  [@sidebarState]="toggleSidebarButton" >
+                <div class="row text-center sidebarButtonsRow" (mouseover)="openSidebar()" (pointerleave)="closeSidebar()">
+                    
+                    <div class="col"id="toggleCol">
+                        <!-- <a routerLink="/User"> -->
+                            <div class="row" id="toggleRow">
+                                <div class="form-check form-switch" id="toggleForm">
+                                    <input class="form-check-input" (change)="toggleMode($event)" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                    <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Mode<span style="color:transparent">_</span>A</div>
+                                </div>
+                            </div>
+                        <!-- </a> -->
+                    </div>
+
+                        <div class="w-100"></div>
+                    <div class="col"id="UserCol">
+                        <a class="active" routerLink="/User">
+                            <div class="row">
+                                <button id="user_button col " class="btn sidebarButtons"><img src="\assets\user.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Users</div>
+                            </div>
+                        </a>
+                    </div>
+                        <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="ReminderAStats">
+                            <div class="row">    
+                                <button id="check_button" class="btn sidebarButtons"><img src="\assets\check.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">View<span style="color:transparent">_</span>Stats</div>
+                            </div>
+                        </a>
+                    </div>
+                            <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="ReminderA">
+                            <div class="row">
+                                <button id="reminder_button" class="btn sidebarButtons"><img src="\assets\circular-clock.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Reminders</div>
+                            </div>
+                        </a>
+                    </div>
+                        <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="Setup">
+                            <div class="row">
+                                <button id="setup_button" class="btn sidebarButtons"><img src="\assets\Setup.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">ESP<span style="color:transparent">_</span>Setup</div>
+                            </div>
+                        </a>
+                    </div>
+                        
+                            <div class="w-100"></div>
+                    <div class="col exitButton justify-self-end">
+                        <a href="">
+                            <div class="row" >
+                                <button id="exit_button" class="btn sidebarButtons"><img src="\assets\share.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Sign<span style="color:transparent">_</span>Out</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col BC_Classes" id="bodyContainer_body" >
+                <router-outlet></router-outlet>
+            </div>
+    </div>
+
+    <!-- MODE B NAV-BAR -->
+    <ng-template #modeB>    
+        <div  id="bodyContainer" class="row ">
+            <div id="bodyContainer_sideBar_modeb"class="col BC_Classes"  [@sidebarState]="toggleSidebarButton" >
+                <div class="row text-center sidebarButtonsRow" (mouseover)="openSidebar()" (pointerleave)="closeSidebar()">
+                    
+                    <div class="col"id="toggleCol">
+                            <div class="row" id="toggleRow">
+                                <div class="form-check form-switch" id="toggleForm">
+                                    <input class="form-check-input" (change)="toggleMode($event)" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                    <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Mode<span style="color:transparent">_</span>B</div>
+                                </div>
+                            </div>
+                    </div>
+
+                        <div class="w-100"></div>
+                    <div class="col"id="UserCol">
+                        <a class="active" routerLink="/User">
+                            <div class="row">
+                                <button id="user_button col " class="btn sidebarButtons"><img src="\assets\user.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Users</div>
+                            </div>
+                        </a>
+                    </div>
+                        <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="/ReminderBStats">
+                            <div class="row">    
+                                <button id="check_button" class="btn sidebarButtons"><img src="\assets\check.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">View<span style="color:transparent">_</span>Stats</div>
+                            </div>
+                        </a>
+                    </div>
+                            <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="ReminderB/add">
+                            <div class="row">
+                                <button id="reminder_button" class="btn sidebarButtons"><img src="\assets\circular-clock.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Reminders</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="Medicines/add">
+                            <div class="row">
+                                <button id="Meds_button" class="btn sidebarButtons"><img src="\assets\pills.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Medicines</div>
+                            </div>
+                        </a>
+                    </div>
+                        <div class="w-100"></div>
+                    <div class="col">
+                        <a routerLink="Setup">
+                            <div class="row">
+                                <button id="setup_button" class="btn sidebarButtons"><img src="\assets\Setup.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">ESP<span style="color:transparent">_</span>Setup</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                            <div class="w-100"></div>
+                    <div class="col exitButton justify-self-end">
+                        <a href="">
+                            <div class="row" >
+                                <button id="exit_button" class="btn sidebarButtons"><img src="\assets\share.png" alt=""></button>
+                                <div class="col sidebarTexts" [@sidebarTextState]="toggleSidebarButton">Sign<span style="color:transparent">_</span>Out</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col BC_Classes" id="bodyContainer_body" >
+                <router-outlet></router-outlet>
+            </div>
+
+    </div>
+    </ng-template>
+</div>

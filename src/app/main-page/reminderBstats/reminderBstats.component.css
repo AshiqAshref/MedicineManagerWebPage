@@ -1,0 +1,15 @@
+
+.boxRow{
+    max-width: 200px;
+}
+.boxCol{
+    width: 50px;
+    min-height: 50px;
+    border: white 1px solid;
+    color: white;
+    background-color: green;
+}
+#O6, #O4, #l3{
+    background-color: red;
+
+}

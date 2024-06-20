@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col">
+        <div class="card-body" id="card_body">
+            <h2 class="text-uppercase text-center mb-5">Enter the ESP IP to start Connection</h2>
+            <h3 class="text-uppercase text-center mb-5">Current Ip = {{currentIp}} </h3>
+
+            <form #val = "ngForm" (ngSubmit)="setESPiP(val)">
+                <div class="form-outline mb-4">
+                    <input name="ip" ngModel type="ipAddress" id="ipAddress" placeholder="IP ADDRESS" class="form-control form-control-lg"/>
+                </div>
+                <div class="d-flex justify-content-center m-1">
+                    <button type="button" class="btn btn-primary btn-block btn-lg " type="submit">
+                        SetIp
+                    </button>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-success"  (click)="checkConnection()" >
+                {{connectionButton}} 
+                <span *ngIf="loading"  aria-hidden="true"  class="spinner-grow spinner-grow-sm"></span>
+            </button>
+
+            <div [className]="statusClass"> {{statusCode}} </div>    
+        </div>
+    </div>
+</div>

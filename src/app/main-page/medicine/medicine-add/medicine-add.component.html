@@ -1,0 +1,35 @@
+<div class="w-100"></div>
+            <div class="container-fluid">
+                
+                <div class="col-12"><button type="button" class="btn btn-success my-2" (click)="refreshValues()">Load</button></div>
+                    <form class="row input-group has-validation" [formGroup]="addMedicineForm"> 
+                        <div class="col-4  form-floating my-3" >
+                            <input formControlName="medNameForm" type="name" [ngClass]="[addMedicineForm.get('medNameForm')?.invalid && addMedicineForm.get('medNameForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Medicine Name">
+                            <label for="floatingInput">Medicine Name</label>
+                            <div id="medInputError" class = "invalid-feedback" >*required Field</div>
+                        </div>
+
+                        <div class="col-4 form-floating my-3">
+                            <input name="amount" formControlName="amountForm" type="amount" [ngClass]="[addMedicineForm.get('amountForm')?.invalid && addMedicineForm.get('amountForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Amount">
+                            <div class = "invalid-feedback" *ngIf="addMedicineForm.get('amountForm')?.errors?.['onlyNumbers']; else otherAmountError">*Only numbers</div>
+                            <ng-template  #otherAmountError><div class = "invalid-feedback">*required Field</div></ng-template>
+                            <label for="floatingInput">Amount</label>  
+                        </div>
+                        
+                        <div class="col-4 form-floating my-3" id="boxNo">
+                            <select  formControlName="boxNumberForm" [ngClass]="[addMedicineForm.get('boxNumberForm')?.invalid && addMedicineForm.get('boxNumberForm')?.touched ? 'form-control is-invalid':'form-control']"id="BoxNumber" required>
+                                <option selected disabled value="0"></option>
+                                <option [disabled]="checkForDisabled(numb)" *ngFor="let numb of boxNumbers" [value]="numb">{{numb}}</option>
+                            </select> 
+                            <label for="BoxNumber" class="form-label">Choose a box</label>
+                            <div class = "invalid-feedback">*required Field</div>
+                        </div>
+                    </form>
+
+                    <div class="w-100"></div>
+                    <div class="w-100"></div>
+                    <div class="col-12 ">
+                        <button [disabled]="!addMedicineForm.valid || addButtonDisabled" (click)="addMedicine()" class="btn btn-primary my-2" type="submit">Add</button>
+                    </div>
+            </div>
+ 

@@ -1,0 +1,46 @@
+
+<div class="container-fluid">
+    Add<br>
+    <button type="button" class="btn btn-success" (click)="refreshValues()">Load</button>
+    <form class="row align-items-center " #val = "ngForm" (ngSubmit)="addReminder(val)">
+        <div class="col " id="boxNo">
+            <label for="BoxNumber" class="form-label">Choose a box</label>
+            <select  name="BoxNumber" (change)="updateOnChange()" [(ngModel)]="boxNoModel" class="form-select" id="BoxNumber" required>
+              <option selected disabled [value]="0">Choose...</option>
+              <option  [disabled]="checkIfReserved(numb)" *ngFor="let numb of boxNumbers">{{numb}}</option>
+            </select> 
+        </div>
+        <div class="w-100"> Set a Time</div>
+        <div class="row" id="timePicker">
+            <div class="col">
+                <label for="hour" class="form-label">Hour</label>
+                <select name="hour" ngModel  class="form-select" id="hour" required>
+                    <option selected disabled value="0">00</option>
+                    <option  *ngFor="let hr of hours">{{hr}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="min" class="form-label">Min</label>
+                <select name="min" ngModel   class="form-select" id="min" required>
+                    <option selected disabled value="0">00</option>
+                    <option  *ngFor="let min of mins">{{min}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <label   for="AmPm" class="form-label">Am/Pm</label>
+                <select name="AmPm" ngModel  class="form-select" id="AmPm" required>
+                    <option selected disabled value="0">Choose..</option>
+                    <option>Am</option>
+                    <option>Pm</option>
+                </select>
+            </div>
+        </div>
+
+          <div class="col-12">
+            <button class="btn btn-primary" [disabled]="buttonDisable" type="submit">Submit form</button>
+
+          </div>
+    </form>
+
+   
+</div>

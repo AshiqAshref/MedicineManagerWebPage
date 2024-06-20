@@ -1,0 +1,16 @@
+#mainHeader{
+    position:relative;
+    overflow-y: auto;  
+}
+#checkBoxes{
+    max-width: 500px;
+    margin: 20px;
+}
+#userTable{
+    position: relative;
+    /* border: 1px solid black; */
+    bottom:0;
+    overflow-y: auto;
+    min-width: 500px;
+    margin: 20px;
+}

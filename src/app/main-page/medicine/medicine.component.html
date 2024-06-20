@@ -1,0 +1,19 @@
+<div class="container-fluid" id="MainHeader">
+    <div class="container-fluid" id="navBody">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+            <a [className]="addReminder" (click)="makeAddMain()" routerLink="add">Add Medicine</a>
+            </li>
+            <li class="nav-item">
+            <a [className]="updateReminder" (click)="makeUpdateMain()" onclick="return false"  routerLink="update">Update Medicine</a>
+            </li> 
+            <li class="nav-item">
+            <a [className]="delReminder" (click)="makeDeleteMain()" onclick="return false"  routerLink="delete">Remove Medicine</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<div class="container-fluid" id="bodyHeader">
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,28 @@
+#addMedDiv{
+    overflow:hidden;
+    /* margin-top: 10px;
+    padding-top: 10px; */
+    box-shadow: 1px 1px 5px rgb(134, 131, 131);
+    /* max-width: 900px; */
+
+    /* margin: 20px; */
+    
+    /* border:solid black 1px; */
+}
+.w-100{
+    margin-top:20px ;
+}
+.shadow{
+    padding: 20px;
+}
+/* .timebox{
+    position: relative;
+} */
+
+.but{
+    position: relative;
+}
+.but button{
+    position: absolute;
+    right:10px
+}
