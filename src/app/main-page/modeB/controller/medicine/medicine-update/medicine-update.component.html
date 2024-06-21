@@ -1,60 +1,86 @@
 <div class="container-fluid" >
-    Update<br>
     <button type="button" class="btn btn-success" (click)="refreshValues()">Load</button>
 
-    <div class="card border-0 shadow rounded-3 my-5">
-        <div class="row w-25  m-2" id="checkBox">
-            <div class="col"><p>Update<span style="color:transparent">_</span>using: </p></div>
-            <div class="col form-check form-check-inline">
-                <input checked  class="form-check-input"  (change)="updateOption('box')" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                <label class="form-check-label" for="inlineRadio2">Box<span style="color:transparent">_</span>Number</label>
-            </div>
-            <div class="col form-check form-check-inline">
-                <input class="form-check-input"  (change)="updateOption('med')" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                <label class="form-check-label" for="inlineRadio1">Medicine<span style="color:transparent">_</span>name</label>
-            </div>
- 
-        </div>
 
-        <form class="row align-items-center " #val = "ngForm" (ngSubmit)="updateMedicine(val)">
-            <div class="col m-2 ">
-                <select  [(ngModel)]="boxNumberNgModel" #device (change)="updateOnChangeBox(device.value)" name="boxNumber" class="form-select" id="boxNumber" required [disabled]="disableBox" >
-                    <option selected disabled value="0">Choose a Box...</option>
-                    <option  *ngFor="let numb of boxNumbersFull" [value]="numb">{{numb}}</option>
-                </select> 
-            </div>
-            <div class="col m-2" id="medicineName">
-                <select [(ngModel)]="medNameNgModel" #med (change)="updateOnChangeMed(med.value)" name="medName" class="form-select" id="medicineName" required [disabled]="disableName">
-                    <option selected disabled value="">Choose a Medicine</option>
-                    <option  *ngFor="let names of medNames" [value]="names">{{names}}</option>
-                </select> 
-            </div>
-            <!-- ---------------------------------------- -->
-            <div class="w-100 my-3"></div>
-            <div class="col align-self-center form-floating my-3">
-                <input [(ngModel)]="medNameInputBox" name="newName" ngModel type="name" class="form-control" id="floatingInput" placeholder="Medicine Name">
-                <label for="floatingInput">Medicine Name</label>
-            </div>
-            <div class="col form-floating my-3">
-                <input [(ngModel)]="amountInputBox" name="newAmount" ngModel type="amount" class="form-control" id="floatingInput" placeholder="Amount">
-                <label for="floatingInput">Amount</label>
-            </div>
-            <div class="col ms-2 " >
-                <select name="changeBoxTo" [(ngModel)]="boxNoOptModel" class="form-select" id="changeBoxTo" required>
-                    <option selected value='0'>Choose a Box (Optional)</option>
-                    <option  *ngFor="let num of boxNumbers" [disabled]="checkToDisableBoxOptional(num)">{{num}}</option>
-                </select> 
-            </div>
-                <div class="w-100 my-3"></div>
-            
+    <div class="card border-0 shadow rounded-3 my-5 p-2">
+        
 
 
+        <form class="align-items-center" [formGroup]="updateMedicineForm">
+            <div class="row  m-2" id="checkBox">
+                <div class="col-4"><p>Update<span style="color:transparent">_</span>using: </p></div>
+                <div class="col-2 form-check form-check-inline">
+                    <input formControlName="updateOptionRadioForm" class="form-check-input"
+                      type="radio"  id="inlineRadio2" value="box">
+                    <label class="form-check-label" for="inlineRadio2">Box<span style="color:transparent">_</span>Number</label>
+                </div>
+                <div class="col-2 form-check form-check-inline">
+                    <input formControlName="updateOptionRadioForm" class="form-check-input"
+                       type="radio"  id="inlineRadio1" value="name">
+                    <label class="form-check-label" for="inlineRadio1">Medicine<span style="color:transparent">_</span>name</label>
+                </div> 
+            </div>
 
-            <div class="col-12">
-                <button class="btn btn-primary" [disabled]="isDisabled" type="submit">Update</button>
+            <div class="row  my-3">
+                <div class="col form-floating m-2 ">
+                    <select formControlName="boxSelectForm" id="boxNumber" 
+                    class="form-select ">
+                        <option selected disabled value=0></option>
+                        <option *ngFor="let medicine of getSortedMedicinesByBox()" [value]="medicine.med_id">{{medicine.med_box_no}}</option>
+                    </select> 
+                    <label for="boxNumber" class="form-label">Choose a box</label>
+                </div>
+
+                <div class="col form-floating m-2">
+                    <select formControlName="nameSelectForm" id="medicineNameSelect"
+                    class="form-select">
+                        <option selected disabled value=0></option>
+                        <option  *ngFor="let medicine of getSortedMedicinesByName()" [value]="medicine.med_id">{{medicine.med_name}}</option>
+                    </select>
+                    <label for="medicineNameSelect" class="form-label">Choose a Medicine</label>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col  form-floating my-2" >
+                    <input formControlName="nameInputForm" id="medicineInputBox" 
+                     [ngClass]="[
+                     updateMedicineForm.get('medNameForm')?.invalid &&
+                     updateMedicineForm.get('medNameForm')?.touched ? 'form-control is-invalid':'form-control']"
+                     oninput="this.value = this.value.toUpperCase()"
+                     placeholder="Medicine Name" type="name">
+                    <label for="medicineInputBox">Medicine Name</label>
+                    <div id="medInputError" class = "invalid-feedback" >*required Field</div>
+                </div>
+
+                <div class="col form-floating my-2">
+                    <input formControlName="amountInputForm" id="amountInputBox"  
+                    [ngClass]="[
+                     updateMedicineForm.get('amountForm')?.invalid && 
+                     updateMedicineForm.get('amountForm')?.touched ? 'form-control is-invalid':'form-control']"
+                     placeholder="Amount" type="amount">
+                    <div class = "invalid-feedback" *ngIf="updateMedicineForm.get('amountForm')?.errors?.['onlyNumbers']; else otherAmountError">*Only numbers</div>
+                    <ng-template  #otherAmountError><div class = "invalid-feedback">*required Field</div></ng-template>
+                    <label for="amountInputBox">Amount</label>  
+                </div>
+
+                <div class="col form-floating my-2 ">
+                    <select formControlName="boxOptSelectForm" id="boxNumberOptional" 
+                    class="form-select">
+                        <option selected disabled value=0></option>
+                        <option [disabled]="checkForDisabled(numb)" *ngFor="let numb of boxNumbers" [value]="numb">{{numb}}</option>
+                    </select> 
+                    <label for="boxNumberOptional" class="form-label">Choose new box (Optional)</label>
+                </div>
+
             </div>
         </form>
-    </div>
 
-   
+        <div class="col-12">
+            <button class="btn btn-primary" [disabled]="disableUpdateButton" type="submit">Update</button>
+        </div>
+    </div>
 </div>
+
+
+

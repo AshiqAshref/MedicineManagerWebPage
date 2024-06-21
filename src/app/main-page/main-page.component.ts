@@ -60,7 +60,7 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     // this.router.navigate(['/Setup']);
     // this.router.navigate(['/ReminderB']);
-    this.router.navigate(['/Medicines/add']);
+    this.router.navigate(['/Medicines/update']); 
     // this.router.navigate(['/ReminderA/add']);
     // this.router.navigate(['/']);
   } 

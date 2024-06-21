@@ -1,9 +1,11 @@
-import { Observable } from 'rxjs/internal/Observable';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { NgForm } from '@angular/forms';
-import { modeB } from 'src/environments/environments';
+import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { MedicineService } from '../../../service/medicine.service';
+import { Medicine } from '../../../model/medicine';
+import { AppService } from 'src/app/main-page/app.service';
+import { CustomValidators } from 'src/app/Validators/CustomValidators.validator';
 
 @Component({
   selector: 'app-update-med',
@@ -11,165 +13,148 @@ import { modeB } from 'src/environments/environments';
   styleUrls: ['./medicine-update.component.css']
 })
 export class MedicineUpdateComponent {
-  result:any;
-  medNames:string[]=[];
-  boxNumbers:Number[]=[];
-  boxNumbersFull:Number[]=[];
-
-  disableBox:boolean=false;
-  disableName:boolean=true;
-  isDisabled:boolean=true;
-  medNameNgModel:string='';
-  boxNumberNgModel:Number=0;
-  medNameInputBox:string='';
-  amountInputBox:string='';
-  boxNoOptModel:number=0
+  medicines:Medicine[]=[]
+  boxNumbers:number[]=[];
+  disableUpdateButton:boolean=true;
+  updateMedicineForm: FormGroup;
+ 
   
+  constructor(private medicineService: MedicineService, private appService:AppService,){
+    this.refreshValues();
+    this.updateMedicineForm = new FormGroup({
+      updateOptionRadioForm:new FormControl("box"),
+      nameSelectForm: new FormControl(null),
+      boxSelectForm: new FormControl(null),
+      nameInputForm: new FormControl(null,[Validators.required]),
+      amountInputForm: new FormControl(null,[Validators.required, CustomValidators.onlyNumbers]),
+      boxOptSelectForm: new FormControl(0),
+    });
+    this.updateOption("box")
 
-  constructor(private http: HttpClient){
-    this.refreshValues().subscribe();
+    this.updateMedicineForm.get("updateOptionRadioForm")?.valueChanges.subscribe(
+      (value)=> this.updateOption(value))
+    this.updateMedicineForm.get("boxSelectForm")?.valueChanges.subscribe(
+      (value)=> this.updateOnChangeBox(value))
+    this.updateMedicineForm.get("nameSelectForm")?.valueChanges.subscribe(
+      (value)=> this.updateOnChangeMed(value))
+
   }
 
 
-  checkToDisableBoxOptional(a:Number):boolean{
-    for (var b of this.boxNumbersFull)
-      if(a==b)
-        return true
-    return false
-  }
-
-
-  updateOnChangeBox(box_no:any){
-    for(var b of this.result){
-      if(Number(b.medb_box_no)==box_no){
-        this.medNameNgModel=b.medb_name;
-        this.medNameInputBox=b.medb_name;
-        this.amountInputBox=b.medb_amount;
+  updateOnChangeBox(med_id:number){
+    for(var medicine of this.medicines){
+      if(medicine.med_id==med_id){
+        this.updateMedicineForm.get("nameSelectForm")?.setValue(medicine.med_id,{emitEvent:false})
+        this.updateMedicineForm.get("nameInputForm")?.setValue(medicine.med_name)
+        this.updateMedicineForm.get("amountInputForm")?.setValue(medicine.med_amount)
+        this.updateMedicineForm.get("boxOptSelectForm")?.setValue(medicine.med_box_no)
       }
     }
-    this.isDisabled=false;
+    this.disableUpdateButton=false;
+  }
+  updateOnChangeMed(med_id:number){
+    for(var medicine of this.medicines){
+      if(medicine.med_id==med_id){
+        this.updateMedicineForm.get("boxSelectForm")?.setValue(medicine.med_id,{emitEvent:false})
+        this.updateMedicineForm.get("nameInputForm")?.setValue(medicine.med_name)
+        this.updateMedicineForm.get("amountInputForm")?.setValue(medicine.med_amount)
+        this.updateMedicineForm.get("boxOptSelectForm")?.setValue(medicine.med_box_no)
+      }
+    }
+    this.disableUpdateButton=false;
   }
 
 
-  updateOnChangeMed(a:any){
-    for(var b of this.result){
-      if(b.medb_name===a ){
-        this.boxNumberNgModel=Number(b.medb_box_no);
-        this.medNameInputBox=b.medb_name;
-        this.amountInputBox=b.medb_amount;
+  findMedicineById(med_id:number):number{
+    for(let i=0;i<this.medicines.length;i++)
+      if(this.medicines[i].med_id == med_id)
+        return i
+    return NaN
+  }
+
+
+  refreshValues(){
+    this.medicineService.getMedicines().subscribe({
+      next: (response: Medicine[])=>{
+        console.log(response);
+        this.medicines=response;
+        this.medicines.sort((n1,n2)=> n1.med_box_no - n2.med_box_no)
+        this.boxNumbers=[];
+        for(let i=1; i<=16;i++) this.boxNumbers.push(i);
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.message);
       }
-    }
-    this.isDisabled=false;
+    })
+  }
+
+  
+  getSortedMedicinesByName():Medicine[]{
+    let meds:Medicine[] = this.medicines
+    return meds.sort((n1,n2)=> n1.med_name > n2.med_name ? 1: -1)
+  }
+  getSortedMedicinesByBox():Medicine[]{
+    let meds:Medicine[] = this.medicines
+    return meds.sort((n1,n2)=> n1.med_box_no - n2.med_box_no)
   }
 
 
   updateOption(a:string){
-    if(a=='med'){
-      this.disableName=false;
-      this.disableBox=true;
+    if(a=='name'){
+      this.updateMedicineForm.get("nameSelectForm")?.enable()
+      this.updateMedicineForm.get("boxSelectForm")?.disable()
     }
     else if(a=='box'){
-      this.disableBox=false;
-      this.disableName=true;
+      this.updateMedicineForm.get("boxSelectForm")?.enable()
+      this.updateMedicineForm.get("nameSelectForm")?.disable()
     }
   }
 
 
-  updateMedicine(event:NgForm){
-    this.isDisabled=true;
-    let new_amount=event.value.newAmount; 
-    let new_med_name=event.value.newName;
-    let new_box_no=event.value.changeBoxTo;
-    let orginal_id:Number=0;
-    let orginal_box_no = Number(this.boxNumberNgModel);
-    let orginal_med_name;
-    let orginal_amount;
+  checkForDisabled(a:number){
+    for(var medicine of this.medicines)
+      if(medicine.med_box_no == a)
+        return true
+    return false
+  }
 
-    for(var a of this.result)
-      if(Number(a.medb_box_no)== orginal_box_no){
-        orginal_id = Number(a.medb_id);
-        orginal_med_name = a.medb_name;
-        orginal_amount = a.medb_amount;
-        break;
-      }
-    
-    if(new_box_no==0)
-      new_box_no=orginal_box_no;
-    if(new_med_name.length==0)
-      new_med_name=orginal_med_name;
-    if(new_amount.length==0)
-      new_amount=orginal_amount
-    
+  
+  updateValues(medicine:Medicine){
+    this.updateMedicineForm.get("nameSelectForm")?.setValue(medicine.med_id,{emitEvent:false})
+    this.updateMedicineForm.get("boxSelectForm")?.setValue(medicine.med_id,{emitEvent:false})
+    this.updateMedicineForm.get("nameInputForm")?.setValue(medicine.med_name)
+    this.updateMedicineForm.get("amountInputForm")?.setValue(medicine.med_amount)
+    this.updateMedicineForm.get("boxOptSelectForm")?.setValue(medicine.med_box_no)
 
-    this.http.post(modeB.updateMedAddress,{
-      "headers":{
-        "Content-Type": "application/json"
-      },
-      medb_id:orginal_id,
-      name:new_med_name,
-      changeBoxTo:new_box_no,
-      amount:new_amount
-    })
-    .pipe(map((response: any) => response))
-    .subscribe(res=>{
-      try {
-        console.log(res);
-      } catch (error) {
-        console.log(error);
-      }
-      this.refreshValues().subscribe(res=>{
-        for(var a of res.Medicines){
-          if(Number(a.medb_id)==orginal_id){
-            this.medNameNgModel=a.medb_name;
-            this.medNameInputBox=a.medb_name;
-            this.boxNumberNgModel=Number(a.medb_box_no);
-            this.amountInputBox=a.medb_amount;
-          }
-        }
-      }) 
-    })
+    this.appService.setMessage(medicine)
   }
 
 
-  updateOnChange(a:any){
-    console.log(a);
-    for(let i=0;i<this.result.length;i++){
-      if(Number(this.result[i].boxNo)==a){
-      }
+  updateMedicine(){
+    this.disableUpdateButton=true;
+
+    let newMedicine:Medicine ={
+      med_id : this.updateMedicineForm.get("boxSelectForm")?.value,
+      med_amount:this.updateMedicineForm.get("amountInputForm")?.value,
+      med_name: this.updateMedicineForm.get("nameInputForm")?.value,
+      med_box_no: this.updateMedicineForm.get("boxOptSelectForm")?.value
     }
-  }
+
+    
+    // Write ChecksHere
+    
 
 
-  refreshValues(): Observable<any>{
-    this.boxNumbersFull=[];
-    this.boxNumbers=[];
-    this.medNames=[]; 
-
-    let requestObservable = this.http.post(modeB.getAllMedsAddress,{
-      "headers":{
-        "Content-Type": "application/json"
+    this.medicineService.updateMedicine(newMedicine).subscribe({
+      next : (updatedMedicine:Medicine)=>{
+        console.log(updatedMedicine)
+        this.medicines[this.findMedicineById(updatedMedicine.med_id)] = updatedMedicine
+        this.updateValues(updatedMedicine)
       },
-    }).pipe(map((response: any) => response))
-    requestObservable.subscribe(res=>{
-      try {
-        console.log(res);
-        this.result=res.Medicines;
-        for(let i=1; i<=16;i++)
-          this.boxNumbers.push(i);
-        for(var a of this.result){
-          this.boxNumbersFull.push(Number(a.medb_box_no))
-          this.medNames.push(a.medb_name)
-        }
-        this.boxNumbersFull.sort((n1,n2)=> Number(n1) - Number(n2))
-
-      } catch (error) {
-        console.log(error);
-      } 
-    })
-    return requestObservable
+      error: (error: HttpErrorResponse) => {
+        alert(error.message);
+      }}
+    )
   }
-
-
-
 
 }

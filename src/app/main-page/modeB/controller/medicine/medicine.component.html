@@ -1,6 +1,7 @@
-<div class="container-fluid" id="MainHeader">
+<div class="container-fluid p-2" id="MainHeader">
     <div class="container-fluid" id="navBody">
-        <ul class="nav nav-pills">
+
+        <ul class="nav nav-tabs danger">
             <li class="nav-item">
             <a [className]="addReminder" (click)="makeAddMain()" routerLink="add">Add Medicine</a>
             </li>
@@ -14,6 +15,6 @@
     </div>
 
 </div>
-<div class="container-fluid" id="bodyHeader">
+<div class="container-fluid p-3" id="bodyHeader">
     <router-outlet></router-outlet>
 </div>

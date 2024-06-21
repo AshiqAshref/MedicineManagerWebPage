@@ -28,7 +28,7 @@ import { Medicine } from '../../../model/medicine';
 })
 export class ReminderBAddComponent{
   results:any;
-  boxNumbersFull:{"medb_id":number,"medb_box_no":number}[]=[];
+  boxNumbersFull:{"med_id":number,"med_box_no":number}[]=[];
   hours12:String[]=['0'];
   hours24:String[]=['0'];
   mins:String[]=['0'];
@@ -84,20 +84,20 @@ export class ReminderBAddComponent{
   }
 
 
-  updateOnChangeMed(medb_id:number){
-    this.addReminderForm.get("boxSelectForm")?.setValue(medb_id,{emitEvent:false})
+  updateOnChangeMed(med_id:number){
+    this.addReminderForm.get("boxSelectForm")?.setValue(med_id,{emitEvent:false})
     for(let result of this.results)
-      if(result.medb_id == medb_id){
+      if(result.med_id == med_id){
         this.updateTimeValues(result.timeb_times)
         break;
       } 
     this.isSubmitDisabled=false;
     this.isAddTimeDisabled=false;
   }
-  updateOnChangeBox(medb_id:number){
-    this.addReminderForm.get("nameSelectForm")?.setValue(medb_id,{emitEvent:false})
+  updateOnChangeBox(med_id:number){
+    this.addReminderForm.get("nameSelectForm")?.setValue(med_id,{emitEvent:false})
     for(let result of this.results)
-      if(result.medb_id == medb_id){
+      if(result.med_id == med_id){
         this.updateTimeValues(result.timeb_times)
         break;
       }   
@@ -149,7 +149,7 @@ export class ReminderBAddComponent{
 
   addReminder(){
     let timeList:Object[]=[];
-    let medb_id = this.addReminderForm.get("boxSelectForm")?.value
+    let med_id = this.addReminderForm.get("boxSelectForm")?.value
 
     if(!this.addReminderForm.get('is12hrCheckForm')?.value){
       (<FormArray>this.addReminderForm.get('times24Form')).controls.forEach((a)=>{
@@ -170,7 +170,7 @@ export class ReminderBAddComponent{
       "headers":{
         "Content-Type": "application/json"
       },
-      medb_id:medb_id,
+      med_id:med_id,
       times:timeList
     })
     .pipe(map((response: any) => response))
@@ -221,8 +221,8 @@ export class ReminderBAddComponent{
 
     this.boxNumbersFull=[];
     for(var a of this.results)
-      this.boxNumbersFull.push({"medb_id": Number(a.medb_id),"medb_box_no":Number(a.medb_box_no)})
-    this.boxNumbersFull.sort((n1,n2)=> Number(n1.medb_box_no) - Number(n2.medb_box_no))
+      this.boxNumbersFull.push({"med_id": Number(a.med_id),"med_box_no":Number(a.med_box_no)})
+    this.boxNumbersFull.sort((n1,n2)=> Number(n1.med_box_no) - Number(n2.med_box_no))
   }
 
 
@@ -290,7 +290,7 @@ export class ReminderBAddComponent{
   generateRandValues(){
     this.addReminderForm.get('is12hrCheckForm')?.setValue(false);
     let randNo = Math.floor(Math.random() * this.results.length);
-    this.addReminderForm.get("boxSelectForm")?.setValue(this.results[randNo].medb_id);
+    this.addReminderForm.get("boxSelectForm")?.setValue(this.results[randNo].med_id);
     let randSizeOfTimes = Math.floor(Math.random() * 5)+1;
     for(let i=0;i<randSizeOfTimes;i++){
       let hr24 = Math.floor(Math.random() * 23);

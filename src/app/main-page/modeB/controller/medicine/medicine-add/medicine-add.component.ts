@@ -1,7 +1,6 @@
 import { MedicineService } from './../../../service/medicine.service';
 
-
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/Validators/CustomValidators.validator';
@@ -25,7 +24,7 @@ export class MedicineAddComponent {
   medicines:Medicine[]=[]
 
 
-  constructor(private http: HttpClient, private appService:AppService, private medicineService: MedicineService){
+  constructor(private appService:AppService, private medicineService: MedicineService){
     this.refreshValues();
     this.addMedicineForm = new FormGroup({
       medNameForm: new FormControl(null,[Validators.required]),
@@ -64,6 +63,7 @@ export class MedicineAddComponent {
 
     this.medicineService.deleteMedicine(med_id).subscribe({
       complete: (response: void) => {
+        console.log(response)
         this.addMedicineForm.reset()
         this.refreshValues();
       },

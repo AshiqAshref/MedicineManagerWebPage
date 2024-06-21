@@ -9,7 +9,7 @@
             <div class="col form-floating my-3" id="boxNo">     
                 <select formControlName="boxSelectForm"  class="form-select" id="BoxNumber">
                     <option selected disabled value="0">Choose...</option>
-                    <option  *ngFor="let boxNumber of boxNumbersFull" [value]="boxNumber.medb_id">{{boxNumber.medb_box_no}}</option> 
+                    <option  *ngFor="let boxNumber of boxNumbersFull" [value]="boxNumber.med_id">{{boxNumber.med_box_no}}</option> 
                 </select> 
                 <label for="BoxNumber" class="form-label"><b>Choose a box</b></label>
             </div>
@@ -18,7 +18,7 @@
             <div class="col form-floating my-3 " id="med">
                 <select formControlName="nameSelectForm" class="form-select" id="MedName">
                     <option selected disabled value="0">Choose...</option>
-                    <option  *ngFor="let medName of results" [value]="medName.medb_id">{{medName.medb_name}}</option>
+                    <option  *ngFor="let medName of results" [value]="medName.med_id">{{medName.med_name}}</option>
                 </select> 
                 <label for="MedName" class="form-label"><b>Choose a Medicine</b></label>
             </div>

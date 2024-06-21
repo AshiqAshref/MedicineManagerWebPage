@@ -30,6 +30,7 @@ import { AppComponent } from './app.component';
   import { ReminderBStatsComponent } from './main-page/modeB/controller/reminderBstats/reminderBstats.component';
 
 
+
   const appRoutes:Routes=[
     {
       path:'User',
