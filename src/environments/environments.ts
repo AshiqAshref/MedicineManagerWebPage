@@ -12,7 +12,7 @@ export const environment = {
     getAllMedsAddress: environment.config+"/modeB/medicines/all",
     addMedAddress    : environment.config+"/modeB/medicine/add",
     updateMedAddress : environment.config+'/modeB/medicine/update',
-    deleteMedAddress : environment.config+'/modeB/medicine/delete',
+    deleteMedAddress : environment.config+'/modeB/medicine/delete/',
 
     testAddress : environment.config+'/modeB/test'
   };

@@ -20,17 +20,23 @@
                             <select  formControlName="boxNumberForm" [ngClass]="[addMedicineForm.get('boxNumberForm')?.invalid && addMedicineForm.get('boxNumberForm')?.touched ? 'form-control is-invalid':'form-control']"id="BoxNumber" required>
                                 <option selected disabled value=0></option>
                                 <option [class]="checkForDisabled(numb)" *ngFor="let numb of boxNumbers" [value]="numb">{{numb}}</option>
-
                             </select> 
                             <label for="BoxNumber" class="form-label">Choose a box</label>
                             <div class = "invalid-feedback">*required Field</div>
+                        </div>
+                        <div class="col-4 form-floating my-3">
+                            
+                            <button [disabled]="!addMedicineForm.valid || addButtonDisabled" type="button" class="btn btn-primary my-2" (click)="onSubmit()" >
+                                Add
+                            </button>
                         </div>
                     </form>
 
                     <div class="w-100"></div>
                     <div class="col-12 ">
-                        <button [disabled]="!addMedicineForm.valid || addButtonDisabled" (click)="addMedicine()" class="btn btn-primary my-2" type="submit">Add</button>
-                        <!-- <button  (click)="addMedicine()" class="btn btn-primary my-2" type="submit">Add</button> -->
+                        <button [disabled]="!addMedicineForm.valid || deleteButtonDisabled" type="button" class="btn btn-success my-2" (click)="onDelete()">
+                            Delete
+                        </button>
                     </div>
             </div>
  

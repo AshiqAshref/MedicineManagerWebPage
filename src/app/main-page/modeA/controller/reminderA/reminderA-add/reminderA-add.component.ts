@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { modeA } from 'src/environments/environments';
 import { Observable } from 'rxjs/internal/Observable';
-import { reminderA } from '../../models/reminderA';
+import { ReminderA } from '../../../model/reminderA';
+
 
 @Component({
   selector: 'app-reminder-add',
@@ -76,7 +77,7 @@ export class ReminderAAddComponent implements OnInit{
       stringMin=Mints.toLocaleString();
     }
 
-    const a:reminderA = {id:NaN, time:stringHour+":"+stringMin, boxNo:bNo}
+    const a:ReminderA = {id:NaN, time:stringHour+":"+stringMin, boxNo:bNo}
     this.http.post(modeA.addReminderAddress,a,{
       "headers":{
         "Content-Type": "application/json"

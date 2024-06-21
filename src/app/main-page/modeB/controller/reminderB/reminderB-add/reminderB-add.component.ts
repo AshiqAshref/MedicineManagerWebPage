@@ -7,6 +7,7 @@ import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/
 import { modeB } from 'src/environments/environments';
 import { Observable } from 'rxjs';
 import { AppService } from 'src/app/main-page/app.service';
+import { Medicine } from '../../../model/medicine';
 
 @Component({
   selector: 'app-mode-b-add',
@@ -183,10 +184,11 @@ export class ReminderBAddComponent{
   }
   
 
-  updateNewValues({med_id,emitEvent}:{med_id:number,emitEvent:boolean}){
+  updateNewValues(medicine:Medicine){
+    if(isNaN(medicine.med_id)) return
     this.refreshValues(true).subscribe((val)=>{
       this.afterGetRequest(val)
-      this.addReminderForm.get("boxSelectForm")?.setValue(med_id,{emitEvent:emitEvent})
+      this.addReminderForm.get("boxSelectForm")?.setValue(medicine.med_id,{emitEvent:true})
     })
   }
 

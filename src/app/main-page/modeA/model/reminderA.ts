@@ -1,4 +1,4 @@
-export interface reminderA{
+export interface ReminderA{
     id:number,
     time:string,
     boxNo:number
