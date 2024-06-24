@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./medicine.component.css']
 })
 export class MedicineComponent {
-  cNameActive:string="nav-link success active";
-  cName:string="nav-link";
+  cNameActive:string=" success active btn btn-primary";
+  cName:string=" btn btn-success";
   addReminder:string="";
   updateReminder:string="";
   delReminder:string="";

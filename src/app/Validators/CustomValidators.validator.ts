@@ -10,7 +10,7 @@ export class CustomValidators extends Validators{
 
 
     static dropDownNotNull(control:AbstractControl):ValidationErrors | null{
-        if(control.value==0)
+        if(control.value==0 || isNaN(control.value) || control.value==null)
             return {dropDownNotNull: true}
         return null
     }

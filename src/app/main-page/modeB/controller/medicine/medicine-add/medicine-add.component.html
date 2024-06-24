@@ -11,7 +11,8 @@
                         </div>
 
                         <div class="col-4 form-floating my-3">
-                            <input name="amount" formControlName="amountForm" type="amount" [ngClass]="[addMedicineForm.get('amountForm')?.invalid && addMedicineForm.get('amountForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Amount">
+                            <input name="amount" formControlName="amountForm" type="amount"
+                             [ngClass]="[addMedicineForm.get('amountForm')?.invalid && addMedicineForm.get('amountForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Amount">
                             <div class = "invalid-feedback" *ngIf="addMedicineForm.get('amountForm')?.errors?.['onlyNumbers']; else otherAmountError">*Only numbers</div>
                             <ng-template  #otherAmountError><div class = "invalid-feedback">*required Field</div></ng-template>
                             <label for="floatingInput">Amount</label>  
