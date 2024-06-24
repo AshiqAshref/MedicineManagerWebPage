@@ -1,15 +1,126 @@
-<div class="container-fluid" id="MainHeader">
-    <div class="container-fluid" id="navBody">
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-            <a [className]="addReminder" (click)="makeAddMain()" routerLink="add">Add Reminder</a>
-            </li>
-             
-            
-        </ul>
-    </div>
 
-</div>
-<div class="container-fluid" id="bodyHeader">
-    <router-outlet ></router-outlet>
+<div class="container-fluid">
+    Add<br>
+    <button type="button" class="btn btn-success" (click)="refreshValues()">Load</button>
+    <button type="button" class="btn btn-success" (click)="generateRandValues()">RandomVals</button>
+
+    <div class="card border-0 shadow rounded-3 my-5 px-5">
+        <form class="row align-items-center " [formGroup] = "addReminderForm">
+            <div class="col form-floating my-3" id="boxNo">     
+                <select formControlName="boxSelectForm"  class="form-select" id="BoxNumber">
+                    <option selected disabled value="0">Choose...</option>
+                    <option  *ngFor="let boxNumber of boxNumbersFull" [value]="boxNumber.med_id">{{boxNumber.med_box_no}}</option> 
+                </select> 
+                <label for="BoxNumber" class="form-label"><b>Choose a box</b></label>
+            </div>
+            <div class="col"><b>OR</b></div>
+
+            <div class="col form-floating my-3 " id="med">
+                <select formControlName="nameSelectForm" class="form-select" id="MedName">
+                    <option selected disabled value="0">Choose...</option>
+                    <option  *ngFor="let medName of results" [value]="medName.med_id">{{medName.med_name}}</option>
+                </select> 
+                <label for="MedName" class="form-label"><b>Choose a Medicine</b></label>
+            </div>
+            <div class="col"><b>OR</b></div>
+
+            <div class="col">
+                <button class="btn btn-primary" routerLink="Medicines" type="button" (click)="toggleMed()">
+                    <b>Add a Medicine</b>
+                </button>
+            </div>
+            <!-- MED_________CONTAINER -->
+            <div class="w-100"></div>
+            
+            <div class="container-fluid">
+                <div [@toggleAddMed]="addMed" class="row" id="addMedDiv">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <!-- MED_________CONTAINER______END-->
+            
+            <div class="w-100"></div>
+            <div class="container text-center"> 
+                <div class="row ">
+                    <div class="col-3"></div>
+                    <div class="col-6 align-self-center">Add Time
+                        <button class="btn btn-primary mx-3" type="button" [disabled]="isAddTimeDisabled" (click)="addTimeToTimesForm()">+</button>
+                    </div>
+                    <div class="col-2"></div>
+                    <div style="min-width: 50px;"  class="col-1 align-self-end form-check form-switch">
+                        <input class="form-check-input" formControlName="is12hrCheckForm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">{{timeModeStatus}}</label>
+                    </div>
+            </div>
+            </div>
+
+            <div formArrayName= "times12Form">
+                <div  class="row timebox" *ngFor="let time of getTimes12().controls; let i = index " [formGroupName]='i'>
+                    <div class="col form-floating my-3" >
+                        <select formControlName="hour12Form" class="form-select" >
+                            <option *ngFor="let hr of hours12; let i = index" [value]="i+1">{{hr}}</option>
+                        </select>
+                        <label for="hour" class="form-label">Hour</label>
+                    </div>
+                    <div class="col form-floating my-3">
+                        <select formControlName="minForm"  class="form-select" id="min">
+                            <option selected disabled value="0">00</option>
+                            <option  *ngFor="let min of mins; let i = index" [value]="i+1">{{min}}</option>
+                        </select>
+                        <label for="min" class="form-label">Min</label>
+                    </div>
+                    <div class="col form-floating my-3">
+                        <select formControlName = "amPmForm" class="form-select" id="AmPm">
+                            <option value = "Am">Am</option>
+                            <option selected value = "Pm">Pm</option>
+                        </select>
+                        <label   for="AmPm" class="form-label">Am/Pm</label>
+                    </div>
+                    <div class="col-4 form-floating my-3">
+                        <input formControlName="dosageForm"  [ngClass]="[addReminderForm.get('dosageForm')?.invalid && addReminderForm.get('dosageForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Dosage">
+                        <div class = "invalid-feedback" *ngIf="addReminderForm.get('dosageForm')?.errors?.['onlyNumbers']; else otherDosageError">*Only numbers</div>
+                        <ng-template  #otherDosageError><div class = "invalid-feedback">*required Field</div></ng-template>
+                        <label for="floatingInput">Dosage</label>  
+                    </div>
+                    
+                    <div class="col but my-3 justify-content-end">
+                        <button class="btn btn-primary" (click)="removeTimeFromTimesForm(i)" type="button" >-</button>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="times24Form" >
+                <div class="row" *ngFor="let time of getTimes24().controls; let i = index " [formGroupName] = 'i'>
+                    <div class="col form-floating my-3">
+                        <select formControlName="hour24Form" class="form-select" id="hour">
+                            <option  *ngFor="let hr of hours24; let i = index" [value]="i">{{hr}}</option>
+                        </select>
+                        <label for="hour" class="form-label">Hour</label>
+                    </div>
+                    <div class="col form-floating my-3">
+                        <select formControlName="minForm"  class="form-select" id="min">
+                            <option selected value="0">00</option>
+                            <option  *ngFor="let min of mins;let i = index" [value]="i+1">{{min}}</option>
+                        </select>
+                        <label for="min" class="form-label">Min</label>
+                    </div>
+                    <div class="col-4 form-floating my-3">
+                        <input formControlName="dosageForm"  [ngClass]="[addReminderForm.get('dosageForm')?.invalid && addReminderForm.get('dosageForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Dosage">
+                        <div class = "invalid-feedback" *ngIf="addReminderForm.get('dosageForm')?.errors?.['onlyNumbers']; else otherDosageError">*Only numbers</div>
+                        <ng-template  #otherDosageError><div class = "invalid-feedback">*required Field</div></ng-template>
+                        <label for="floatingInput">Dosage</label>  
+                    </div>
+                    <div class="col but my-3">
+                        <button class="btn btn-primary" type="button"   (click)="removeTimeFromTimesForm(i)">-</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-100"></div>
+            <div class="col-12">
+                <button (click)="addReminder()" [disabled]="isSubmitDisabled" class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+        </form>
+    </div>
+   
 </div>

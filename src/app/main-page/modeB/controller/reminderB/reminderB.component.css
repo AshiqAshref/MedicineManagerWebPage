@@ -1,0 +1,19 @@
+#addMedDiv{
+    overflow:hidden;
+    box-shadow: 1px 1px 5px rgb(134, 131, 131);
+
+}
+.w-100{
+    margin-top:20px ;
+}
+.shadow{
+    padding: 20px;
+}
+
+.but{
+    position: relative;
+}
+.but button{
+    position: absolute;
+    right:10px
+}

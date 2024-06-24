@@ -12,12 +12,7 @@ import { AppComponent } from './app.component';
   import { MainPageComponent } from './main-page/main-page.component';
 
     import { MedicineComponent } from './main-page/modeB/controller/medicine/medicine.component';
-      import { MedicineAddComponent } from './main-page/modeB/controller/medicine/medicine-add/medicine-add.component';
-      import { MedicineUpdateComponent } from './main-page/modeB/controller/medicine/medicine-update/medicine-update.component';
-      import { MedicineDeleteComponent } from './main-page/modeB/controller/medicine/medicine-delete/medicine-delete.component';
-
     import { ReminderBComponent } from './main-page/modeB/controller/reminderB/reminderB.component';
-      import { ReminderBAddComponent } from './main-page/modeB/controller/reminderB/reminderB-add/reminderB-add.component';
 
     import { ReminderAComponent } from './main-page/modeA/controller/reminderA/reminderA.component';
       import { ReminderAAddComponent } from './main-page/modeA/controller/reminderA/reminderA-add/reminderA-add.component';
@@ -56,21 +51,10 @@ import { AppComponent } from './app.component';
     {
       path:'ReminderB',
       component:ReminderBComponent,
-      children:[
-        {
-          path:'add',
-          component:ReminderBAddComponent,
-          children:[{
-            path:'Meds',
-            component:MedicineComponent,
-            children:[
-              {path:'add',component:MedicineAddComponent},
-              {path:'update',component:MedicineUpdateComponent},
-              {path:'delete',component:MedicineDeleteComponent},
-            ]
-          }]
-        }
-      ]
+      children:[{
+        path:'Medicines',
+        component:MedicineComponent,
+      }]
     },
     {
       path:'ReminderBStats',
@@ -79,11 +63,6 @@ import { AppComponent } from './app.component';
     {
       path:'Medicines',
       component:MedicineComponent, 
-      children:[
-        {path:'add',component:MedicineAddComponent},
-        {path:'update',component:MedicineUpdateComponent},
-        {path:'delete',component:MedicineDeleteComponent},
-      ]
     },
   
   ];
@@ -103,13 +82,9 @@ import { AppComponent } from './app.component';
     ReminderADeleteComponent,
 
     ReminderBComponent,
-    ReminderBAddComponent,
     
     MedicineComponent,
-    MedicineAddComponent,
-    MedicineUpdateComponent,
-    MedicineDeleteComponent,
-    
+
     ReminderAStatsComponent,
     ReminderBStatsComponent,
     

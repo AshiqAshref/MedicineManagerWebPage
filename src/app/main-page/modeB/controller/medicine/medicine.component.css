@@ -1,0 +1,22 @@
+#checkBox{
+    min-width: 430px;
+}
+
+
+select{
+    text-align: center;
+}
+
+option.false{
+    color: white;
+    background-color: green;
+    text-align: center;
+
+}
+
+option.true{
+    color: white;
+    background-color: red;
+    text-align: center;
+
+}
