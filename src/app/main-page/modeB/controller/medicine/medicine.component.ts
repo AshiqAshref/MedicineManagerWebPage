@@ -5,6 +5,7 @@ import { MedicineService } from '../../service/medicine.service';
 import { AppService } from 'src/app/main-page/app.service';
 import { CustomValidators } from 'src/app/Validators/CustomValidators.validator';
 import { HttpErrorResponse } from '@angular/common/http';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -22,10 +23,12 @@ export class MedicineComponent {
   private defaultValues
 
  
-  constructor(private medicineService: MedicineService, private appService:AppService,){
+  constructor(private medicineService: MedicineService,
+     private appService:AppService,
+    ){
     this.refreshValues();
     this.updateMedicineForm = new FormGroup({
-      medicineSelectForm: new FormControl(0, {nonNullable:true}),
+      medicineSelectForm: new FormControl(0),
       nameInputForm: new FormControl(null,[Validators.required]),
       amountInputForm: new FormControl(null,[Validators.required, CustomValidators.onlyNumbers]),
       boxSelectForm: new FormControl(0, [CustomValidators.dropDownNotNull]),
@@ -38,7 +41,6 @@ export class MedicineComponent {
   }
 
  
-
   private updateOnChangeBox(med_id:number){
     if(med_id == 0){
       this.modeAddOrUpdate=true
@@ -69,12 +71,13 @@ export class MedicineComponent {
       next: (response: Medicine[])=>{
         console.log(response);
         this.medicines=response;
-        this.medicines.sort((n1,n2)=> n1.med_box_no - n2.med_box_no)
         this.boxNumbers=[];
         for(let i=1; i<=16;i++) this.boxNumbers.push(i);
       },
       error: (error: HttpErrorResponse) => {
         alert(error.message);
+      },complete:()=>{
+        console.log("DONEEE")
       }
     })
   }
@@ -113,6 +116,23 @@ export class MedicineComponent {
   }
 
 
+  public onDelete():boolean{
+    let med_id :number =  this.updateMedicineForm.get("medicineSelectForm")?.value
+
+    this.medicineService.deleteMedicine(med_id).subscribe({
+      complete: (response: void) => {
+        this.updateMedicineForm.reset()
+        this.refreshValues();
+        return true
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.message);
+        return false
+      }
+    })
+    return false
+  }
+
   public onUpdate(){
     let updateMedicine:Medicine ={
       med_id : this.updateMedicineForm.get("medicineSelectForm")?.value,
@@ -141,11 +161,15 @@ export class MedicineComponent {
     }
 
 
-    this.medicineService.updateMedicine(updateMedicine).subscribe({
+
+    this.medicineService.updateMedicine(updateMedicine).pipe(finalize(()=>{
+      this.updateOnChangeBox(updateMedicine.med_id)
+    })).subscribe({
       next : (updatedMedicine:Medicine)=>{
         console.log(updatedMedicine)
-        this.medicines[this.findMedicineById(updatedMedicine.med_id)] = updatedMedicine
-        this.updateValues(updatedMedicine)
+        this.updateValues(updateMedicine)
+        this.refreshValues()
+        this.updateOnChangeBox(updateMedicine.med_id)
       },error: (error: HttpErrorResponse) => {
         alert(error.message);
       }
@@ -153,26 +177,8 @@ export class MedicineComponent {
   }
 
 
-  public onDelete():boolean{
-    let med_id :number =  this.updateMedicineForm.get("medicineSelectForm")?.value
-
-    this.medicineService.deleteMedicine(med_id).subscribe({
-      complete: (response: void) => {
-        this.updateMedicineForm.reset()
-        this.refreshValues();
-        return true
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-        return false
-      }
-    })
-    return false
-  }
-
   private updateValues(medicine:Medicine){
     this.appService.setMessage(medicine)
-    this.updateMedicineForm.get("medicineSelectForm")?.setValue(medicine.med_id)
     this.updateMedicineForm.get("nameInputForm")?.setValue(medicine.med_name)
     this.updateMedicineForm.get("amountInputForm")?.setValue(medicine.med_amount)
     this.updateMedicineForm.get("boxSelectForm")?.setValue(medicine.med_box_no)
@@ -192,6 +198,7 @@ export class MedicineComponent {
         return i
     return NaN
   }
+
 
   public getSortedMedicinesByName():Medicine[]{
     let meds:Medicine[] = this.medicines

@@ -6,14 +6,12 @@ import { Medicine } from "./modeB/model/medicine";
     providedIn:'root'
 })
 export class AppService{
-    private message = new BehaviorSubject<Medicine>(
-        {
-            med_id:NaN, 
-            med_name:"",
-            med_amount:NaN, 
-            med_box_no:0
-        },
-    );
+    private message = new BehaviorSubject<Medicine>({
+        med_id:0, 
+        med_name:"",
+        med_amount:0, 
+        med_box_no:0,
+    });
 
     getMessage = this.message.asObservable();
     constructor(){}
@@ -21,4 +19,5 @@ export class AppService{
     setMessage(message:Medicine){
         this.message.next(message)
     }
+
 }

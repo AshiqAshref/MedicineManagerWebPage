@@ -8,22 +8,21 @@
         <form class="align-items-center" [formGroup]="updateMedicineForm">
 
             <div class="row  my-3">
-                <div class="col form-floating m-2 ">
-                    <select formControlName="medicineSelectForm" id="boxNumber" 
-                    class="form-select ">
-                        <option selected value=0>Add a Medicine</option>
-                        <option *ngFor="let medicine of getSortedMedicinesByBox()" [value]="medicine.med_id">{{medicine.med_box_no}}</option>
+                <div class="col form-floating m-2" id="boxNo">     
+                    <select formControlName="medicineSelectForm"  class="form-select" id="BoxNumber">
+                        <option selected value=0>Choose...</option>
+                        <option  *ngFor="let boxNumber of getSortedMedicinesByBox()" [value]="boxNumber.med_id">{{boxNumber.med_box_no}}</option> 
                     </select> 
-                    <label for="boxNumber" class="form-label">Choose a box</label>
-                </div>
+                    <label for="BoxNumber" class="form-label">Choose a box</label>
+                </div> 
 
-                <div class="col form-floating m-2">
-                    <select formControlName="medicineSelectForm" id="medicineNameSelect"
-                    class="form-select">
-                        <option selected value=0>Add a Medicine</option>
-                        <option  *ngFor="let medicine of getSortedMedicinesByName()" [value]="medicine.med_id">{{medicine.med_name}}</option>
-                    </select>
-                    <label for="medicineNameSelect" class="form-label">Choose a Medicine</label>
+    
+                <div class="col form-floating m-2 " id="med">
+                    <select formControlName="medicineSelectForm" class="form-select" id="MedName">
+                        <option selected  value=0>Choose...</option>
+                        <option  *ngFor="let medName of getSortedMedicinesByName()" [value]="medName.med_id">{{medName.med_name}}</option>
+                    </select> 
+                    <label for="MedName" class="form-label">Choose a Medicine</label>
                 </div>
             </div>
 

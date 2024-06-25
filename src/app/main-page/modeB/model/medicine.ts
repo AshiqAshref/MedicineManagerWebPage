@@ -1,3 +1,5 @@
+import { Time } from "./time";
+
 export interface Medicine{
     med_id:number,
     med_name:String,

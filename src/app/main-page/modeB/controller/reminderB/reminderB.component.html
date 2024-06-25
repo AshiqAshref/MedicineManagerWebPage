@@ -8,17 +8,17 @@
         <form class="row align-items-center " [formGroup] = "addReminderForm">
             <div class="col form-floating my-3" id="boxNo">     
                 <select formControlName="boxSelectForm"  class="form-select" id="BoxNumber">
-                    <option selected disabled value="0">Choose...</option>
-                    <option  *ngFor="let boxNumber of boxNumbersFull" [value]="boxNumber.med_id">{{boxNumber.med_box_no}}</option> 
+                    <option selected disabled value=0>Choose...</option>
+                    <option  *ngFor="let boxNumber of getSortedMedicinesByBox()" [value]="boxNumber.med_id">{{boxNumber.med_box_no}}</option> 
                 </select> 
                 <label for="BoxNumber" class="form-label"><b>Choose a box</b></label>
-            </div>
+            </div> 
             <div class="col"><b>OR</b></div>
 
             <div class="col form-floating my-3 " id="med">
-                <select formControlName="nameSelectForm" class="form-select" id="MedName">
-                    <option selected disabled value="0">Choose...</option>
-                    <option  *ngFor="let medName of results" [value]="medName.med_id">{{medName.med_name}}</option>
+                <select formControlName="boxSelectForm" class="form-select" id="MedName">
+                    <option selected disabled value=0>Choose...</option>
+                    <option  *ngFor="let medName of getSortedMedicinesByName()" [value]="medName.med_id">{{medName.med_name}}</option>
                 </select> 
                 <label for="MedName" class="form-label"><b>Choose a Medicine</b></label>
             </div>
