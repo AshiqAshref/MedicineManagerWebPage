@@ -64,7 +64,7 @@
                     </div>
                     <div class="col form-floating my-3">
                         <select formControlName="minForm"  class="form-select" id="min">
-                            <option selected disabled value="0">00</option>
+                            <option selected value="0">00</option>
                             <option  *ngFor="let min of mins; let i = index" [value]="i+1">{{min}}</option>
                         </select>
                         <label for="min" class="form-label">Min</label>
