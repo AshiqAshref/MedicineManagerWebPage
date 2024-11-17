@@ -75,7 +75,7 @@
                             <option selected value = "Pm">Pm</option>
                         </select>
                         <label   for="AmPm" class="form-label">Am/Pm</label>
-                    </div>
+                    </div> 
                     <div class="col-4 form-floating my-3">
                         <input formControlName="dosageForm"  [ngClass]="[addReminderForm.get('dosageForm')?.invalid && addReminderForm.get('dosageForm')?.touched ? 'form-control is-invalid':'form-control']" id="floatingInput" placeholder="Dosage">
                         <div class = "invalid-feedback" *ngIf="addReminderForm.get('dosageForm')?.errors?.['onlyNumbers']; else otherDosageError">*Only numbers</div>

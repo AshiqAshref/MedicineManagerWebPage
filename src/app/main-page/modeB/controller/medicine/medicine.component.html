@@ -3,8 +3,6 @@
 
 
     <div class="card border-0 shadow rounded-3 my-5 p-2">
-        
-
         <form class="align-items-center" [formGroup]="updateMedicineForm">
 
             <div class="row  my-3">
@@ -12,7 +10,7 @@
                     <select formControlName="medicineSelectForm"  class="form-select" id="BoxNumber">
                         <option selected value=0>Choose...</option>
                         <option  *ngFor="let boxNumber of getSortedMedicinesByBox()" [value]="boxNumber.med_id">{{boxNumber.med_box_no}}</option> 
-                    </select> 
+                    </select>  
                     <label for="BoxNumber" class="form-label">Choose a box</label>
                 </div> 
 
@@ -45,7 +43,7 @@
                      updateMedicineForm.get('amountInputForm')?.invalid && 
                      updateMedicineForm.get('amountInputForm')?.touched ? 'form-control is-invalid':'form-control']"
                      placeholder="Amount" type="amount">
-                    <div class = "invalid-feedback" *ngIf="updateMedicineForm.get('amountForm')?.errors?.['onlyNumbers']; else otherAmountError">*Only numbers</div>
+                    <div class = "invalid-feedback" *ngIf="updateMedicineForm.get('amountInputForm')?.errors?.['onlyNumbers']; else otherAmountError">*Only numbers</div>
                     <ng-template  #otherAmountError><div class = "invalid-feedback">*required Field</div></ng-template>
                     <label for="amountInputBox">Amount</label>  
                 </div> 

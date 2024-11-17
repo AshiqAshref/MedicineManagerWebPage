@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CustomValidators } from 'src/app/Validators/CustomValidators.validator';
+import { SetupService } from '../modeB/service/setup.service';
+
 
 
 @Component({
@@ -10,100 +12,115 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./setup.component.css']
 })
 export class SetupComponent {
-  constructor(private http: HttpClient){}
+ 
   result:any;
   currentIp:String="";
-  statusCode:String="";
-  cname:string="spinner-grow spinner-grow-sm "
   loading:boolean=false;
   connectionButton:string="Check Connection";
-  statusClass:String="card-body";
+  colorClass:string = "error_text";
+  status_text:string = "";
 
-  ngOnInit():void {
-    this.getIp();
+  public manageIpForm: FormGroup;
+  public testESPForm: FormGroup;
+
+  constructor(private setupService:SetupService){
+    this.manageIpForm = new FormGroup({
+      ipInputForm: new FormControl(null,[Validators.required, CustomValidators.ipValidator]),
+    });
+    this.testESPForm = new FormGroup({
+      textInputForm: new FormControl(null),
+    });
+    // this.checkConnection();
+    this.displayLoadingResult({espIp:"192.168.1.1"});
+
   }
+  displayLoadingResult(status:{espIp:string}){
+    if(status.espIp!= "null"){
+      this.colorClass = "success_text";
+      this.status_text = "Success"
+      this.currentIp = status.espIp;
+      console.log(status.espIp)
+    }else{
+      this.colorClass = "error_text";
+      this.status_text = "Fail"
+      this.currentIp = ""
+    }
+    this.showLoadingStatus(false)
 
+
+  }
+  
+  showLoadingStatus(status:boolean){
+    if(status){
+      this.loading=true;
+      this.connectionButton="Connecting.."
+    }else{
+      this.loading=false;
+      this.connectionButton="Check Connection"
+    }
+  }
 
   checkConnection(){
-    this.statusClass="card-body";
-    this.statusCode="";
-    this.loading=true;
-    this.connectionButton="Connecting.."
-    console.log("Checking Connection");
-    this.http.post('http://localhost:8080/ESP_Manager/update?updateDevice',{
-      "headers":{
-        "Content-Type": "application/json"
+    this.showLoadingStatus(true)
+    this.setupService.getEspIP().subscribe({
+      next: (response:{espIp:string})=>{
+        console.log(response);
+        this.displayLoadingResult(response);
       },
-    })
-    .pipe(map((response: any) => response))
-    .subscribe(res=>{
-      try{
-        
-        console.log(res);
-        let resp:String =res.status;
-        console.log(resp);
-        if(resp.match("ok")){
-          this.statusClass="card-body text-success";
-        }else if(resp.match("error")){
-          this.statusClass="card-body text-danger";
-          this.statusCode=res.error;
-        }else if(resp.match("error_code")){
-          this.statusClass="card-body text-danger";
-          this.statusCode=res.error_code;
-        }
-        console.log("statCode: "+this.statusCode)
-        
-
-        this.loading=false;
-        this.connectionButton="Check Connection"
-      }catch (error) {
-        this.loading=false;
-        this.connectionButton="Check Connection"
+      error:(error: HttpErrorResponse)=>{
         console.log("ERROR");
         console.log(error);
-      } 
+        this.displayLoadingResult({espIp:"null"});
+      }
     })
   }
 
-
-  getIp(){
-    this.http.post('http://localhost:8080/ESP_Manager/update?getIp',{
-      "headers":{
-        "Content-Type": "application/json"
+  attemptConnection(){
+    this.showLoadingStatus(true)
+    this.setupService.esp_attempt_conn().subscribe({
+      next: (response:{espIp:string})=>{
+        console.log(response);
+        this.displayLoadingResult(response);
       },
-    })
-    .pipe(map((response: any) => response))
-    .subscribe(res=>{
-      try{
-        console.log(res);
-        this.result=res.ipAddress;
-        console.log(this.result);
-        this.currentIp=this.result;
-      }catch (error) {
+      error:(error: HttpErrorResponse)=>{
         console.log("ERROR");
         console.log(error);
-      } 
+        this.displayLoadingResult({espIp:"null"});
+      }
     })
   }
 
-  setESPiP(event:NgForm){
-    this.http.post('http://localhost:8080/ESP_Manager/update?setIp',{
-      "headers":{
-        "Content-Type": "application/json"
+
+  setESPiP(){
+    console.log()
+    this.showLoadingStatus(true)
+
+    this.setupService.setEspIP(this.manageIpForm.get("ipInputForm")?.value).subscribe({
+      next: (response:{espIp:string})=>{
+        console.log(response);
+        this.displayLoadingResult(response);
       },
-      ipAddr:event.value.ip
-    })
-    .pipe(map((response: any) => response))
-    .subscribe(res=>{
-      try {
-        this.result=res;
-        console.log(res);
-        this.getIp();
-
-      } catch (error) {
+      error:(error: HttpErrorResponse)=>{
         console.log("ERROR");
-      }   
+        console.log(error);
+        this.displayLoadingResult({espIp:"null"});
+      }
     })
-
   }
+
+  esp_test(){
+    console.log("value: ", this.testESPForm.get("textInputForm")?.value)
+    this.setupService.esp_test(this.testESPForm.get("textInputForm")?.value).subscribe({
+      next: (response:String)=>{
+        console.log(response);
+      },
+      error:(error: HttpErrorResponse)=>{
+        console.log("ERROR");
+        console.log(error);
+      }
+    })
+  }
+
+
+  
 }

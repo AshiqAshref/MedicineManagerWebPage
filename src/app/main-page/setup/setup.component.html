@@ -1,26 +1,71 @@
-<div class="row">
-    <div class="col">
-        <div class="card-body" id="card_body">
-            <h2 class="text-uppercase text-center mb-5">Enter the ESP IP to start Connection</h2>
-            <h3 class="text-uppercase text-center mb-5">Current Ip = {{currentIp}} </h3>
+<div class="container-fluid" >
+    <div class="card border-0 shadow rounded-3 p-5 my-5" style ="min-width: 166px;">
+        <div class="row justify-content-center">
 
-            <form #val = "ngForm" (ngSubmit)="setESPiP(val)">
-                <div class="form-outline mb-4">
-                    <input name="ip" ngModel type="ipAddress" id="ipAddress" placeholder="IP ADDRESS" class="form-control form-control-lg"/>
+ 
+            <div class="col-md-4  p-2" style="min-width: 166px;">
+                <div class="card border-0 shadow rounded-3  p-2 h-100  ">
+                    <div class="conatiner p-2">
+                        <div class="container">
+                            <button type="button" class=" btn btn-success p-2"  (click)="checkConnection()" >
+                                {{connectionButton}}
+                                <span *ngIf="loading"  aria-hidden="true"  class="spinner-grow spinner-grow-sm"></span>
+                            </button>
+                        </div>
+                        <div class = "conatiner p-2" [ngClass]="colorClass">{{status_text}} {{currentIp}}</div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-7 p-2" style="min-width: 166px;">
+                <div class="card border-0 shadow rounded-3  p-2 h-100 ">
+                    <div class="container">
+                        <form class="align-items-center container" [formGroup]="manageIpForm">
+                            <div class="col form-floating my-2">
+                                <input formControlName="ipInputForm" id="amountInputBox"  
+                                [ngClass]="[
+                                manageIpForm.get('ipInputForm')?.invalid && 
+                                manageIpForm.get('ipInputForm')?.touched ? 'form-control is-invalid':'form-control']"
+                                placeholder="Ip" type="amount">
+                                <div class = "invalid-feedback" *ngIf="manageIpForm.get('ipInputForm')?.errors?.['ipValidator']; else invalidIpError">*Invalid Ip</div>
+                                <ng-template  #invalidIpError><div class = "invalid-feedback">*required Field</div></ng-template>
+                                <label for="amountInputBox">Ip Address</label>  
+                            </div> 
+                        </form>
+                        
+                        <button type="button" class="btn btn-success m-1"  (click)="setESPiP()" >
+                            Try IP
+                        </button>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center m-1">
-                    <button type="button" class="btn btn-primary btn-block btn-lg " type="submit">
-                        SetIp
-                    </button>
-                </div>
-            </form>
+            </div>
 
-            <button type="button" class="btn btn-success"  (click)="checkConnection()" >
-                {{connectionButton}} 
-                <span *ngIf="loading"  aria-hidden="true"  class="spinner-grow spinner-grow-sm"></span>
-            </button>
+            <div class="w-100"></div>
 
-            <div [className]="statusClass"> {{statusCode}} </div>    
+            <div class="col-md-3  p-2" style="min-width: 166px;">
+                <div class="card border-0 shadow rounded-3  p-2 h-100  ">
+                    <div class="conatiner p-2">
+                        <form class="align-items-center container" [formGroup]="testESPForm">
+                            <div class="col form-floating my-2">
+                                
+                                <input formControlName="textInputForm" id="valueInputBox"  class = "form-control"
+                                placeholder="Value" type="amount"> 
+                                <label for="valueInputBox">Value as</label>  
+                            </div> 
+                            
+                        </form>
+                        <button type="button" class=" btn btn-success p-2"  (click)="esp_test()" >
+                            esp_test_1
+                        </button>
+                        <button type="button" class=" btn btn-primary p-2 m-1"  (click)="attemptConnection()" >
+                            attempt connection
+                        </button>
+                    </div>
+                </div> 
+            </div>
+
+
         </div>
     </div>
+        
 </div>
